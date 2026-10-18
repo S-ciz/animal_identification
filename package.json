@@ -1,0 +1,21 @@
+{
+  "name": "wildlife_site",
+  "version": "1.0.0",
+  "description": "## Files ``` wildlife_site/   index.html   css/style.css   js/app.js   server_stub.py     (test server; replace with your real model later) ```",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.1",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "multer": "^2.4.0",
+    "sharp": "^0.35.5"
+  }
+}

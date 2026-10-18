@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Upload a wildlife photo to identify the animal and check its conservation status.">
+  <title>Wildlife ID - Identify an Animal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">&#129417;</span>
+        <span class="brand-name">Spoor</span>
+        <span class="brand-tag">Know the animal. Know its status.</span>
+      </div>
+      <div class="server-status" id="server-status" role="status" aria-live="polite">
+        <span class="dot" id="status-dot"></span>
+        <span id="status-text">Checking server...</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="hero">
+      <h1>Identify an animal from a photo</h1>
+      <p>Upload a photo from a camera trap or safari. We will tell you whether the animal is recognised, what it is, and whether it is endangered.</p>
+    </section>
+
+    <div class="layout">
+      <!-- Upload card -->
+      <section class="card" aria-labelledby="upload-title">
+        <h2 id="upload-title" class="card-title">1. Choose a photo</h2>
+
+        <form id="upload-form" novalidate>
+          <div id="drop-zone" class="drop-zone" tabindex="0" role="button"
+               aria-label="Choose an image. You can also drag and drop or paste one.">
+            <div class="drop-icon" aria-hidden="true">&#128247;</div>
+            <p class="drop-main"><strong>Click to browse</strong>, drag and drop, or paste an image</p>
+            <p class="drop-sub">JPG, PNG or WEBP &middot; up to 10 MB</p>
+            <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" hidden>
+          </div>
+
+          <div id="preview-wrap" class="preview-wrap hidden">
+            <img id="preview" alt="Preview of the selected photo">
+            <div class="file-meta">
+              <span id="file-name" class="file-name"></span>
+              <span id="file-size" class="file-size"></span>
+            </div>
+            <button type="button" id="remove-btn" class="link-btn">Remove photo</button>
+          </div>
+
+          <div id="form-error" class="alert alert-error hidden" role="alert"></div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary" disabled>Identify animal</button>
+        </form>
+      </section>
+
+      <!-- Result card -->
+      <section class="card" aria-labelledby="result-title" aria-live="polite">
+        <h2 id="result-title" class="card-title">2. Result</h2>
+
+        <div id="empty-state" class="empty-state">
+          <div class="empty-icon" aria-hidden="true">&#128062;</div>
+          <p>Your result will appear here.</p>
+        </div>
+
+        <div id="loading" class="loading hidden" role="status">
+          <div class="spinner" aria-hidden="true"></div>
+          <p id="loading-text">Analysing photo...</p>
+          <button type="button" id="cancel-btn" class="link-btn">Cancel</button>
+        </div>
+
+        <div id="result" class="result hidden">
+          <div id="identified-banner" class="banner">
+            <span id="banner-icon" class="banner-icon" aria-hidden="true"></span>
+            <div>
+              <p id="banner-title" class="banner-title"></p>
+              <p id="banner-sub" class="banner-sub"></p>
+            </div>
+          </div>
+
+          <dl class="facts">
+            <div class="fact">
+              <dt>Animal</dt>
+              <dd id="r-species"></dd>
+            </div>
+            <div class="fact">
+              <dt>Individual</dt>
+              <dd id="r-individual"></dd>
+            </div>
+            <div class="fact">
+              <dt>Match confidence</dt>
+              <dd>
+                <div class="meter" aria-hidden="true"><div id="meter-fill" class="meter-fill"></div></div>
+                <span id="r-confidence"></span>
+              </dd>
+            </div>
+            <div class="fact">
+              <dt>Conservation status</dt>
+              <dd><span id="r-status" class="badge"></span></dd>
+            </div>
+          </dl>
+
+          <p id="endangered-note" class="endangered-note"></p>
+          <p class="source-note">Status follows the IUCN Red List and may change. Check <a href="https://www.iucnredlist.org" target="_blank" rel="noopener">iucnredlist.org</a> for the latest assessment.</p>
+
+          <button type="button" id="again-btn" class="btn btn-secondary">Identify another photo</button>
+        </div>
+
+        <div id="api-error" class="alert alert-error hidden" role="alert">
+          <p id="api-error-text"></p>
+          <div class="alert-actions">
+            <button type="button" id="retry-btn" class="btn btn-small">Try again</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card history-card hidden" id="history-card" aria-labelledby="history-title">
+      <div class="history-head">
+        <h2 id="history-title" class="card-title">Recent results</h2>
+        <button type="button" id="clear-history" class="link-btn">Clear</button>
+      </div>
+      <ul id="history-list" class="history-list"></ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Helping protect Africa's wildlife, one photo at a time.</div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
