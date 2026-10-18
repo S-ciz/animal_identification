@@ -237,11 +237,10 @@ async function runPrediction() {
 
 
 
-console.log("RAW API RESPONSE:", data);
+
 
 const result = {...normalise(data), "status": status};
 
-console.log("NORMALISED RESULT:", result);
 
 renderResult(result);;
   } catch (err) {
@@ -334,9 +333,10 @@ function renderResult(r) {
       ? "We have not seen this individual before. It has been added as a new record."
       : "We have not seen this individual before.";
   }
-
+ 
   $("r-species").textContent = r.species ? titleCase(r.species) : "Unknown";
-  $("r-individual").textContent = r.individualId || (r.species ? "New individual" : "—");
+  // $("r-individual").textContent = r.individualId || (r.species ? "New individual" : "—");
+ $("r-individual").parentElement.remove()
   $("r-confidence").textContent = r.confidence === null ? "n/a" : (r.confidence * 100).toFixed(0) + "%";
   $("meter-fill").style.width = r.confidence === null ? "0%" : (r.confidence * 100) + "%";
 

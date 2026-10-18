@@ -15,6 +15,8 @@ import sharp from "sharp";
 import { pipeline } from "@huggingface/transformers";
 import { SPECIES } from "./animals.js";
 
+import { AnomalPrediction } from "./anomal.js";
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -41,7 +43,7 @@ const upload = multer({
 // It compares an image with candidate species labels.
 const MODEL_NAME = "Xenova/clip-vit-base-patch32";
 
-
+const THRESHOLD = 0.95
 let classifier;
 
 async function loadModel() {
@@ -91,6 +93,8 @@ async function predictImage(imageBuffer) {
       !bestPrediction.label.toLowerCase().includes("no animal") &&
       !bestPrediction.label.toLowerCase().includes("landscape");
 
+     
+
     return {
       identified: Boolean(animals_found),
 
@@ -134,7 +138,10 @@ app.post("/predict", upload.single("image"), async (req, res) => {
   }
 
   try {
-    const result = await predictImage(req.file.buffer);
+    const {confidence} = await AnomalPrediction(req.file)
+    let decision = confidence < THRESHOLD ? false : true
+    let result = await predictImage(req.file.buffer);
+    result = {...result, identified: decision}
     return res.json(result);
   } catch (error) {
     console.error("Prediction failed:", error);
